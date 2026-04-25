@@ -5,7 +5,7 @@ generated using Kedro 1.2.0
 
 from dotenv import load_dotenv
 
-from .pipeline import create_pipeline
+from purchase_predict.pipelines.training.pipeline import create_pipeline
 
 load_dotenv()
 __all__ = ["create_pipeline"]
