@@ -1,18 +1,28 @@
+# Liste des Cloud Builders : https://console.cloud.google.com/gcr/images/cloud-builders/GLOBAL
 steps:
   - name: "ghcr.io/astral-sh/uv:python3.12-trixie-slim"
     id: CI
+    dir: "purchase-predict" # 👈 Force Cloud Build à entrer dans le sous-dossier
     entrypoint: /bin/sh
     args:
       - "-c"
-      - |
-        cd purchase-predict
-        chmod a+x install.sh
-        ./install.sh
-        uv sync
-        uv run pytest .
+      - "chmod a+x install.sh && ./install.sh && uv sync && uv run pytest ."
     env:
       - "UV_CACHE_DIR=/root/.cache/uv"
-      - "MLFLOW_TRACKING_URI=file:///tmp/mlruns"
+      - "PYTHONPATH=src" # 👈 Aide pytest à trouver tes fichiers source
 
-options:
-  logging: CLOUD_LOGGING_ONLY
+  - name: "ghcr.io/astral-sh/uv:python3.12-trixie-slim"
+    id: CD
+    dir: "purchase-predict" # 👈 Force Cloud Build à entrer dans le sous-dossier
+    entrypoint: /bin/bash
+    args:
+      - "-c"
+      - "chmod a+x install.sh && ./install.sh && uv run kedro run"
+    env:
+      - "ENV=$BRANCH_NAME"
+      - "MLFLOW_SERVER=$_MLFLOW_SERVER"
+      - "DO_NOT_TRACK=1"
+      - "UV_CACHE_DIR=/root/.cache/uv"
+    waitFor: ["CI"]
+
+# logs_bucket: gs://purchase_predict # 👈 COMMENTÉ pour éviter l'erreur d'accès
