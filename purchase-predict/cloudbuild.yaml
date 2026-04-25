@@ -2,18 +2,18 @@
 steps:
   - name: "ghcr.io/astral-sh/uv:python3.12-trixie-slim"
     id: CI
-    dir: "purchase-predict" # 👈 Force Cloud Build à entrer dans le sous-dossier
+    dir: "purchase-predict"
     entrypoint: /bin/sh
     args:
       - "-c"
       - "chmod a+x install.sh && ./install.sh && uv sync && uv run pytest ."
     env:
       - "UV_CACHE_DIR=/root/.cache/uv"
-      - "PYTHONPATH=src" # 👈 Aide pytest à trouver tes fichiers source
+      - "PYTHONPATH=src"
 
   - name: "ghcr.io/astral-sh/uv:python3.12-trixie-slim"
     id: CD
-    dir: "purchase-predict" # 👈 Force Cloud Build à entrer dans le sous-dossier
+    dir: "purchase-predict"
     entrypoint: /bin/bash
     args:
       - "-c"
@@ -25,4 +25,6 @@ steps:
       - "UV_CACHE_DIR=/root/.cache/uv"
     waitFor: ["CI"]
 
-# logs_bucket: gs://purchase_predict # 👈 COMMENTÉ pour éviter l'erreur d'accès
+# La solution magique pour les logs sans utiliser de Bucket :
+options:
+  logging: CLOUD_LOGGING_ONLY
