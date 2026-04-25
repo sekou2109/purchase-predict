@@ -12,6 +12,7 @@ steps:
         uv run pytest .
     env:
       - "UV_CACHE_DIR=/root/.cache/uv"
+      - "MLFLOW_TRACKING_URI=file:///tmp/mlruns"
 
 options:
   logging: CLOUD_LOGGING_ONLY

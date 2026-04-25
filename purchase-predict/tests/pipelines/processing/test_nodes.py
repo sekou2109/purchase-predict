@@ -32,7 +32,7 @@ def test_encode_features(dataset_not_encoded):
 
 
 def test_split_dataset(dataset_encoded, test_ratio):
-    X_train, y_train, X_test, y_test = split_dataset(dataset_encoded, test_ratio).values()
+    X_train, y_train, X_test, y_test = split_dataset(dataset_encoded['features'], test_ratio).values()
     # Checks both sets size
     assert X_train.shape[0] == y_train.shape[0]
     assert X_test.shape[0] == y_test.shape[0]
