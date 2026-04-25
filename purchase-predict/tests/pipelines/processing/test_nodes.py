@@ -36,7 +36,10 @@ def test_split_dataset(dataset_encoded, test_ratio):
     # Checks both sets size
     assert X_train.shape[0] == y_train.shape[0]
     assert X_test.shape[0] == y_test.shape[0]
-    assert X_train.shape[0] + X_test.shape[0] == dataset_encoded.shape[0]
+    
+    # CORRECTION ICI : On utilise ['features'] avant de demander le .shape
+    assert X_train.shape[0] + X_test.shape[0] == dataset_encoded['features'].shape[0]
+    
     # Note that train_test_split of scikit-learn use np.ceil for test split
-    # https://github.com/scikit-learn/scikit-learn/blob/42aff4e2edd8e8887478f6ff1628f27de97be6a3/sklearn/model_selection/_split.py#L1797
-    assert np.ceil(dataset_encoded.shape[0] * test_ratio) == X_test.shape[0]
+    # CORRECTION ICI AUSSI : On utilise ['features']
+    assert np.ceil(dataset_encoded['features'].shape[0] * test_ratio) == X_test.shape[0]
