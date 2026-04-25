@@ -1,0 +1,8 @@
+test_ratio: 0.3
+automl_max_evals: 10
+gcp_project_id: "project-dcda0629-c02e-48ae-a7e"
+gcs_primary_folder: "primary_bucket-_2103/primary.csv"
+mlflow_enabled: True  # Do we log metrics and artifacts to MLflow ?
+mlflow_experiment_id: 1  # Experimented ID associated to this project
+
+mlflow_model_registry: "purchase_predict"
