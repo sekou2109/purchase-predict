@@ -11,7 +11,7 @@ steps:
     entrypoint: /bin/sh
     args:
       - "-c"
-      - "chmod a+x install.sh && ./install.sh && uv sync && uv run pytest ."
+      - "cd purchase-predict && chmod a+x install.sh && ./install.sh && uv sync && uv run pytest ."
     env:
       - "UV_CACHE_DIR=/root/.cache/uv"
 
@@ -20,7 +20,7 @@ steps:
     entrypoint: /bin/bash
     args:
       - "-c"
-      - "chmod a+x install.sh && ./install.sh && uv run kedro run"
+      - "cd purchase-predict && chmod a+x install.sh && ./install.sh && uv run kedro run"
     env:
       - "ENV=$BRANCH_NAME"
       - "MLFLOW_SERVER=$_MLFLOW_SERVER"
